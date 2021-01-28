@@ -1,5 +1,7 @@
 package projet;
 
+import java.util.ArrayList;
+
 import LDP.Activite;
 import LDP.LDPManipulation;
 import LDP.Processus;
@@ -24,6 +26,9 @@ public class Transformation {
 		LDPparallel.Processus processusPara = LDPparallelFactory.eINSTANCE.createProcessus();
 		LDPparallel.Debut debutPara = LDPparallelFactory.eINSTANCE.createDebut();
 		LDPparallel.Fin finPara = LDPparallelFactory.eINSTANCE.createFin();
+		
+		String nomDebut = null;
+		String nomFin = null;
 		
 		for(Activite activite : p.getActivites()) {
 			
@@ -263,20 +268,65 @@ public class Transformation {
 			}
 			
 			
-			// Si une activité a son return utilisé dans plus d'une activité en tant que paramètre alors il y a une fourche après cette activité
+			// Si une activité a son return utilisé dans plus d'une activité en tant que paramètre 
+			// Alors on recupere dans un tableau toutes les activités qui ont en paramètre, le returnTag de notre activité
+			// Puis on parcourt ce tableau et si une activité a son returnTag utilisé en paramètre par au moins une autre du tableau créé, on incrémente un compteur
+			// Si le compteur est inférieur à la taille du tableau alors il y a une fourche après cette activité
 			if(nbReturnInParam > 1) {
-				for(Sequence sequence : processusPara.getSequences()) {
-					for(LDPparallel.Activite activitePara2 : sequence.getActivites()) {
-						if(activitePara == activitePara2) {	
-							LDPparallel.Fourche fourche = LDPparallelFactory.eINSTANCE.createFourche();
-							fourche.setPred(sequence);
-							processusPara.getPortes().add(fourche);
+				ArrayList<Activite> activitesUtiliseReturn = new ArrayList<Activite>();
+				for(Activite activite2 : p.getActivites()) {
+					for(String param : activite2.getAction().getParamsTag()) {
+						if(activite.getAction().getReturnTag().equals(param)) {
+							activitesUtiliseReturn.add(activite2);
+						}
+					}
+				}
+				int i = 1;
+				for(Activite activite2 : activitesUtiliseReturn) {
+					for(String param : activite2.getAction().getParamsTag()) {
+						for(Activite activite3 : activitesUtiliseReturn) {
+							if(activite3.getAction().getReturnTag().equals(param)) {
+								i ++;
+								break;
+							}
+						}
+					}
+				}
+				
+				if(i < activitesUtiliseReturn.size()) {
+					for(Sequence sequence : processusPara.getSequences()) {
+						for(LDPparallel.Activite activitePara2 : sequence.getActivites()) {
+							if(activitePara == activitePara2) {	
+								LDPparallel.Fourche fourche = LDPparallelFactory.eINSTANCE.createFourche();
+								fourche.setPred(sequence);
+								processusPara.getPortes().add(fourche);
+							}
 						}
 					}
 				}
 			}
-			manip.sauverModele("model/CalculPara.xmi", processusPara);
+			
+			if(p.getDebut().getReference() == activite) {
+				nomDebut = activite.getDescription();
+			}
+			
+			if(p.getFin().getReference() == activite) {
+				nomFin = activite.getDescription();
+			}
 		}
+		
+		for(Sequence sequence : processusPara.getSequences()) {
+			for(LDPparallel.Activite activite : sequence.getActivites()) {
+				if(activite.getDescription().equals(nomDebut)) {
+					debutPara.setReference(sequence);
+					processusPara.setDebut(debutPara);
+				}
+				if(activite.getDescription().equals(nomFin)) {
+					finPara.setReference(sequence);
+					processusPara.setFin(finPara);
+				}
+			}
+		}
+		manip.sauverModele("model/CalculPara.xmi", processusPara);
 	}
-
 }

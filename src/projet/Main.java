@@ -21,13 +21,15 @@ public class Main {
 		
 		//engineStatique.execute("model/Calcul.xmi", calc, tags);
 		//engineStatique.execute("model/newCalculSeq.xmi", calc, tags);
-		engineStatique.execute("model/newCalculSeqComplique.xmi", calc, tags);
+		//engineStatique.execute("model/newCalculSeqComplique.xmi", calc, tags);
 		
 		
 		//transformation.transfo("model/Calcul.xmi");
 		//transformation.transfo("model/newCalculSeq.xmi");
-		transformation.transfo("model/newCalculSeqComplique.xmi");
+		//transformation.transfo("model/newCalculSeqComplique.xmi");
 
+		engineParallele.execute("model/CalculPara.xmi", calc, tags);
+		
 	}
 
 }
