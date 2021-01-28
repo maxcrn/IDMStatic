@@ -187,19 +187,21 @@ public class Transformation {
 			else if(nbParamFromReturn == 1){
 				if((nbParamsInParamsNewProc >= 1 && nbParamsInParams == nbParamFromReturn) || nbParamsInParams == 0) {
 					Sequence sequenceTemp = null;
+					LDPparallel.Activite activiteTemp2 = null;
 					for(Sequence sequence : processusPara.getSequences()) {
 						for(LDPparallel.Activite activite2 : sequence.getActivites()) {
 							for(String paramTag : activitePara.getAction().getParamsTag()) {
 								if(paramTag.equals(activite2.getAction().getReturnTag())) {
 									sequenceTemp = sequence;
-									activitePara.setPrecedente(activite2);
-									activite2.setSuivante(activitePara);
+									activiteTemp2 = activite2;
 								}
 							}
 						}
 					}
 					boolean ok = false;
 					if(processusPara.getPortes().isEmpty()) {
+						activitePara.setPrecedente(activiteTemp2);
+						activiteTemp2.setSuivante(activitePara);
 						sequenceTemp.getActivites().add(activitePara);
 						ok = true;
 					}
@@ -207,6 +209,8 @@ public class Transformation {
 						if(porte instanceof Fourche) {
 							Fourche fourche = (Fourche) porte;
 							if(fourche.getPred() != sequenceTemp) {
+								activitePara.setPrecedente(activiteTemp2);
+								activiteTemp2.setSuivante(activitePara);
 								sequenceTemp.getActivites().add(activitePara);
 								ok = true;
 							}

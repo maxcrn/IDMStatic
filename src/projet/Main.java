@@ -26,7 +26,7 @@ public class Main {
 		
 		//transformation.transfo("model/Calcul.xmi");
 		//transformation.transfo("model/newCalculSeq.xmi");
-		//transformation.transfo("model/newCalculSeqComplique.xmi");
+		transformation.transfo("model/newCalculSeqComplique.xmi");
 
 		engineParallele.execute("model/CalculPara.xmi", calc, tags);
 		
