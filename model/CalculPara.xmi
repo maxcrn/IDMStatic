@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ASCII"?>
+<LDPparallel:Processus xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:LDPparallel="http://www.univ-pau.fr/m2ti/2020/LDP-parallel">
+  <sequences premiereActivite="//@sequences.0/@activites.0">
+    <activites description="addition1">
+      <action methodName="addition" returnTag="resAdd1">
+        <paramsTag>n</paramsTag>
+        <paramsTag>n2</paramsTag>
+      </action>
+    </activites>
+  </sequences>
+  <sequences premiereActivite="//@sequences.1/@activites.0">
+    <activites description="addition2" suivante="//@sequences.1/@activites.1">
+      <action methodName="addition" returnTag="resAdd2">
+        <paramsTag>resAdd1</paramsTag>
+        <paramsTag>n3</paramsTag>
+      </action>
+    </activites>
+    <activites description="addition4" precedente="//@sequences.1/@activites.0">
+      <action methodName="addition" returnTag="resAdd4">
+        <paramsTag>resAdd1</paramsTag>
+        <paramsTag>resAdd2</paramsTag>
+      </action>
+    </activites>
+  </sequences>
+  <sequences premiereActivite="//@sequences.2/@activites.0">
+    <activites description="addition3" suivante="//@sequences.2/@activites.1">
+      <action methodName="addition" returnTag="resAdd3">
+        <paramsTag>resAdd1</paramsTag>
+        <paramsTag>n4</paramsTag>
+      </action>
+    </activites>
+    <activites description="addition5" precedente="//@sequences.2/@activites.0">
+      <action methodName="addition" returnTag="resAdd5">
+        <paramsTag>resAdd3</paramsTag>
+        <paramsTag>n4</paramsTag>
+      </action>
+    </activites>
+  </sequences>
+  <sequences premiereActivite="//@sequences.3/@activites.0">
+    <activites description="addition6">
+      <action methodName="addition" returnTag="resAdd6">
+        <paramsTag>resAdd4</paramsTag>
+        <paramsTag>resAdd5</paramsTag>
+      </action>
+    </activites>
+  </sequences>
+  <portes xsi:type="LDPparallel:Fourche" pred="//@sequences.0" succ="//@sequences.1 //@sequences.2"/>
+  <portes xsi:type="LDPparallel:Jonction" pred="//@sequences.1 //@sequences.2" succ="//@sequences.3"/>
+</LDPparallel:Processus>

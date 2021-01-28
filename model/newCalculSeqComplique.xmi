@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LDP:Processus
+    xmi:version="2.0"
+    xmlns:xmi="http://www.omg.org/XMI"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:LDP="http://www.univ-pau.fr/m2ti/2020/LDP"
+    xsi:schemaLocation="http://www.univ-pau.fr/m2ti/2020/LDP LDP.ecore">
+  <activites
+  	description="addition1"
+  	suivante="//@activites.1">
+  	<action
+  		methodName="addition"
+  		returnTag="resAdd1">
+  	<paramsTag>n</paramsTag>
+  	<paramsTag>n2</paramsTag>
+  	</action>
+  </activites>
+  <activites
+  	description="addition2"
+  	precedente="//@activites.0">
+  	suivante="//@activites.2">
+  	<action
+  		methodName="addition"
+  		returnTag="resAdd2">
+  	<paramsTag>resAdd1</paramsTag>
+  	<paramsTag>n3</paramsTag>
+    </action>
+  </activites>
+  <activites
+      description="addition3"
+      precedente="//@activites.1">
+      suivante="//@activites.3">
+    <action
+        methodName="addition"
+        returnTag="resAdd3">
+      <paramsTag>resAdd1</paramsTag>
+      <paramsTag>n4</paramsTag>
+    </action>
+  </activites>
+  <activites
+      description="addition4"
+      precedente="//@activites.2">
+      suivante="//@activites.4">
+    <action
+        methodName="addition"
+        returnTag="resAdd4">
+      <paramsTag>resAdd1</paramsTag>
+      <paramsTag>resAdd2</paramsTag>
+    </action>
+  </activites>
+  <activites
+      description="addition5"
+      precedente="//@activites.3">
+      suivante="//@activites.5">
+    <action
+        methodName="addition"
+        returnTag="resAdd5">
+      <paramsTag>resAdd3</paramsTag>
+      <paramsTag>n4</paramsTag>
+    </action>
+  </activites>
+  <activites
+      description="addition6"
+      precedente="//@activites.4">
+    <action
+        methodName="addition"
+        returnTag="resAdd6">
+      <paramsTag>resAdd4</paramsTag>
+      <paramsTag>resAdd5</paramsTag>
+    </action>
+  </activites>
+  <debut reference="//@activites.0"/>
+  <fin reference="//@activites.5"/>
+</LDP:Processus>
