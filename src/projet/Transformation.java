@@ -13,7 +13,6 @@ import LDPparallel.Sequence;
 public class Transformation {
 	
 	public void transfo(String filename) {
-		// RESTE A AJOUTER DEBUT ET FIN EN PARCOURANT ET COMPARANT NOMS ACTIVITES
 		
 		System.out.println("");
 		System.out.println("");
